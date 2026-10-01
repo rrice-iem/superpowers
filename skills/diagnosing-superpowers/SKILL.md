@@ -39,8 +39,9 @@ Create a todo per step. Steps 5–7 run only on their stated condition.
    `prompts/`: `skill-timeline.md`,
    `plan-adherence.md`, `repeated-work.md`, `stumbles.md`,
    `quality-evidence.md`, `request-conflicts.md`, `cost-and-time.md`.
-   Split a dimension by turn range when the transcript is long. Discard
-   any returned finding without `path:line`.
+   Split a dimension by turn range when the transcript is long. Set
+   `run_in_background: true` where supported; don't poll. Discard any
+   returned finding without `path:line`.
 4. **Report.** Fill every section of `templates/report.md` in order, write
    it to the workspace, show it, and give the path. Check what cited content
    actually proves and preserve the supporting case; a symlink alias is not a

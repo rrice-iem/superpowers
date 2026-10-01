@@ -205,6 +205,18 @@ the implementer that got stuck.
 omitted model inherits your session's model — often the most capable and
 most expensive — which silently defeats this section.
 
+**Where your dispatch tool supports background execution, always set
+`run_in_background: true` on every Task dispatch** (implementer, reviewer, re-reviewer, final reviewer, fix-wave). An omitted
+or false value is foreground: the parent is blocked until the child
+finishes, and leaving this chat session stops the child. Background does
+not mean parallel implementers — still one implementer at a time. After
+dispatch, do local work (ledger, next brief, review package) and end the
+turn. Do not poll. The platform notifies when the child completes; then
+continue the loop. Resume rounds 1–3 with the child's agent ID only after
+it has finished — never `interrupt` a running implementer. If your
+dispatch tool has no background mode, dispatch normally and continue on
+the returned result; do not end the turn to wait for a notification.
+
 **Turn count beats token price.** Wall-clock and context cost scale with how
 many turns a subagent takes, and the cheapest models routinely take 2-3× the
 turns on multi-step work — costing more overall. Use a mid-tier model as the
@@ -232,16 +244,12 @@ Everything you paste into a dispatch prompt — and everything a subagent
 prints back — stays resident in your context for the rest of the session
 and is re-read on every later turn. Hand artifacts over as files.
 
-**Waiting on dispatched subagents:** never poll a wait interface with
-short timeouts, and never sit in one silent, open-ended wait either.
-While you have local work — ledger updates, packaging the next review,
-reading reports — keep working; child results arrive on their own.
-When you are genuinely idle, wait in bounded stretches (five to ten
-minutes, where your platform allows), and between stretches post one
-line of status and reconcile your live children: list them, and chase
-any that finished without reporting. A bounded stretch keeps nearly
-all of a long wait's efficiency while guaranteeing a stuck or lost
-child is noticed within minutes, not at the end of the session.
+**Waiting on dispatched subagents:** where supported, they run in the
+background (`run_in_background: true`). Never poll a wait interface, and never sit
+in a blocking wait that keeps this chat's turn open. While you have
+local work — ledger updates, packaging the next review, reading reports
+— keep working, then end the turn. Child results arrive as a
+notification; on that ping, reconcile the ledger and continue the loop.
 
 ### 1. Dispatch the implementer
 
@@ -279,6 +287,7 @@ and fix-round diffs need it.
   a pointer to that ledger entry in the dispatch.
 - Record the implementer's agent identity from the dispatch result —
   fix-loop rounds 1-3 resume this agent.
+- Set `run_in_background: true` on the Task call (see above).
 - Never dispatch multiple implementation subagents in parallel (conflicts).
 
 Template: [implementer-prompt.md](implementer-prompt.md)

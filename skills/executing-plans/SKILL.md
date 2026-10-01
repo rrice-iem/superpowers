@@ -247,8 +247,13 @@ tests do not exercise — the reviewer checks each deliberately), and a
 pointer to the ledger's `Ruling:` lines so it can weigh the calls you
 made. Specify the model
 explicitly; an omitted model inherits the session's, which may not be the
-most capable. This is the one fresh context the whole run buys. Do not
-skip it, and do not replace it with your own read of the diff.
+most capable. Set `run_in_background: true`: a foreground review blocks
+this session, and leaving the chat stops the reviewer. End the turn after
+dispatch and continue when the completion notification arrives; if your
+dispatch tool has no background mode, dispatch normally and continue on
+the returned result instead of ending the turn. This is
+the one fresh context the whole run buys. Do not skip it, and do not
+replace it with your own read of the diff.
 
 **Without a subagent tool:** read code-reviewer.md and perform that review
 yourself against the package, as a separate pass after the last task's

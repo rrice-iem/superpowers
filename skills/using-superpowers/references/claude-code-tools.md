@@ -17,8 +17,9 @@ adjusts it), so the whole loop can run one layer down.
 
 When your human partner asks for it — or has said the session model is
 too expensive to spend on coordination — dispatch ONE orchestrator
-subagent on a mid-tier model with the plan path and the instruction to
-use superpowers:subagent-driven-development end to end. The orchestrator
+subagent on a mid-tier model, with `run_in_background: true`, the plan
+path, and the instruction to use superpowers:subagent-driven-development
+end to end. End the turn after dispatch; the orchestrator
 dispatches its own implementers and reviewers per that skill's Model
 Selection; the workspace and ledger live on disk, so nothing is lost to
 the extra layer. Its final message must carry the "Rulings I made" list
