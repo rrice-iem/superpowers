@@ -9,6 +9,7 @@ Use this template when dispatching a spec document reviewer subagent.
 ```
 Subagent (general-purpose):
   description: "Review spec document"
+  run_in_background: true
   prompt: |
     You are a spec document reviewer. Verify this spec is complete and ready for planning.
 
