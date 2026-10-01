@@ -249,7 +249,9 @@ made. Specify the model
 explicitly; an omitted model inherits the session's, which may not be the
 most capable. Set `run_in_background: true`: a foreground review blocks
 this session, and leaving the chat stops the reviewer. End the turn after
-dispatch and continue when the completion notification arrives. This is
+dispatch and continue when the completion notification arrives; if your
+dispatch tool has no background mode, dispatch normally and continue on
+the returned result instead of ending the turn. This is
 the one fresh context the whole run buys. Do not skip it, and do not
 replace it with your own read of the diff.
 

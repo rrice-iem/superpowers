@@ -34,7 +34,9 @@ HEAD_SHA=$(git rev-parse HEAD)
 Dispatch a `general-purpose` subagent with `run_in_background: true`, filling
 the template at [code-reviewer.md](code-reviewer.md). Foreground review is the
 failure mode: leaving this chat stops the reviewer. End the turn after
-dispatch; continue when the completion notification arrives.
+dispatch; continue when the completion notification arrives. If your
+dispatch tool has no background mode, dispatch normally and continue on the
+returned result; do not end the turn to wait for a notification.
 
 **Placeholders:**
 - `{DESCRIPTION}` - Brief summary of what you built

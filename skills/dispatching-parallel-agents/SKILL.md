@@ -70,6 +70,8 @@ Each Task call must set `run_in_background: true`. An omitted or false value is
 foreground: the parent is blocked, and leaving this chat session stops the
 children. After the parallel dispatch, do local coordinating work if any, then
 **end the turn**. Do not poll. The platform notifies when each child completes.
+If your dispatch tool has no background mode, dispatch normally and continue on
+the returned results; do not end the turn to wait for a notification.
 
 ```text
 Subagent (general-purpose):
