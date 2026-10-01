@@ -205,15 +205,17 @@ the implementer that got stuck.
 omitted model inherits your session's model — often the most capable and
 most expensive — which silently defeats this section.
 
-**Always set `run_in_background: true` on every Task dispatch**
-(implementer, reviewer, re-reviewer, final reviewer, fix-wave). An omitted
+**Where your dispatch tool supports background execution, always set
+`run_in_background: true` on every Task dispatch** (implementer, reviewer, re-reviewer, final reviewer, fix-wave). An omitted
 or false value is foreground: the parent is blocked until the child
 finishes, and leaving this chat session stops the child. Background does
 not mean parallel implementers — still one implementer at a time. After
 dispatch, do local work (ledger, next brief, review package) and end the
 turn. Do not poll. The platform notifies when the child completes; then
 continue the loop. Resume rounds 1–3 with the child's agent ID only after
-it has finished — never `interrupt` a running implementer.
+it has finished — never `interrupt` a running implementer. If your
+dispatch tool has no background mode, dispatch normally and continue on
+the returned result; do not end the turn to wait for a notification.
 
 **Turn count beats token price.** Wall-clock and context cost scale with how
 many turns a subagent takes, and the cheapest models routinely take 2-3× the
@@ -242,8 +244,8 @@ Everything you paste into a dispatch prompt — and everything a subagent
 prints back — stays resident in your context for the rest of the session
 and is re-read on every later turn. Hand artifacts over as files.
 
-**Waiting on dispatched subagents:** they run in the background
-(`run_in_background: true`). Never poll a wait interface, and never sit
+**Waiting on dispatched subagents:** where supported, they run in the
+background (`run_in_background: true`). Never poll a wait interface, and never sit
 in a blocking wait that keeps this chat's turn open. While you have
 local work — ledger updates, packaging the next review, reading reports
 — keep working, then end the turn. Child results arrive as a

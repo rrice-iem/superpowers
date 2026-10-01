@@ -40,8 +40,7 @@ Create a todo per step. Steps 5–7 run only on their stated condition.
    `plan-adherence.md`, `repeated-work.md`, `stumbles.md`,
    `quality-evidence.md`, `request-conflicts.md`, `cost-and-time.md`.
    Split a dimension by turn range when the transcript is long. Set
-   `run_in_background: true` on every analyst dispatch, then end the turn;
-   do not poll — each completion arrives as a notification. Discard any
+   `run_in_background: true` where supported; don't poll. Discard any
    returned finding without `path:line`.
 4. **Report.** Fill every section of `templates/report.md` in order, write
    it to the workspace, show it, and give the path. Check what cited content
