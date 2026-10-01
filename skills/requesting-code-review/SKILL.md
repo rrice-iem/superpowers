@@ -31,7 +31,10 @@ HEAD_SHA=$(git rev-parse HEAD)
 
 **2. Dispatch code reviewer subagent:**
 
-Dispatch a `general-purpose` subagent, filling the template at [code-reviewer.md](code-reviewer.md)
+Dispatch a `general-purpose` subagent with `run_in_background: true`, filling
+the template at [code-reviewer.md](code-reviewer.md). Foreground review is the
+failure mode: leaving this chat stops the reviewer. End the turn after
+dispatch; continue when the completion notification arrives.
 
 **Placeholders:**
 - `{DESCRIPTION}` - Brief summary of what you built

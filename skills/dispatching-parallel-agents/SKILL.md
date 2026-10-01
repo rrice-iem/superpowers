@@ -65,20 +65,33 @@ Each agent gets:
 
 ### 3. Dispatch in Parallel
 
-Issue all three subagent dispatches in the same response — they run in parallel:
+Issue all three subagent dispatches in the same response — they run in parallel.
+Each Task call must set `run_in_background: true`. An omitted or false value is
+foreground: the parent is blocked, and leaving this chat session stops the
+children. After the parallel dispatch, do local coordinating work if any, then
+**end the turn**. Do not poll. The platform notifies when each child completes.
 
 ```text
-Subagent (general-purpose): "Fix agent-tool-abort.test.ts failures"
-Subagent (general-purpose): "Fix batch-completion-behavior.test.ts failures"
-Subagent (general-purpose): "Fix tool-approval-race-conditions.test.ts failures"
-# All three run concurrently.
+Subagent (general-purpose):
+  description: "Fix agent-tool-abort.test.ts failures"
+  run_in_background: true
+  prompt: "..."
+Subagent (general-purpose):
+  description: "Fix batch-completion-behavior.test.ts failures"
+  run_in_background: true
+  prompt: "..."
+Subagent (general-purpose):
+  description: "Fix tool-approval-race-conditions.test.ts failures"
+  run_in_background: true
+  prompt: "..."
+# All three run concurrently, unbound from this chat staying focused.
 ```
 
 Multiple dispatch calls in one response = parallel execution. One per response = sequential.
 
 ### 4. Review and Integrate
 
-When agents return:
+When agents return (on completion notification):
 - Read each summary
 - Verify fixes don't conflict
 - Run full test suite
